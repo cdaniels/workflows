@@ -18,12 +18,14 @@ gulp.task('log',function(){
   gutil.log('workflows are awesome!')
 });
 
+//compile coffee script
 gulp.task('coffee',function(){
   gulp.src(coffeeSources)
   .pipe(coffee({bare:true}).on('error',gutil.log))
   .pipe(gulp.dest('components/scripts'))
 });
 
+//concatinate scripts
 gulp.task('js',function(){
   gulp.src(jsSources)
   .pipe(concat('script.js'))
@@ -42,5 +44,6 @@ gulp.task('compass', function(){
   .pipe(gulp.dest('builds/development/css'))
 });
 
+gulp.task('default',['coffee','js','compass']);
 
 
