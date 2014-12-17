@@ -3,7 +3,9 @@ gutil = require('gulp-util'),
 coffee = require('gulp-coffee'),
 browserify = require('gulp-browserify'),
 compass = require('gulp-compass'),
-connect = require('gulp-connect')
+connect = require('gulp-connect'),
+gulpif = require('gulp-if'),
+uglify = require('gulp-uglify'),
 concat = require('gulp-concat');
 
 
@@ -63,6 +65,7 @@ gulp.task('js',function(){
   gulp.src(jsSources)
   .pipe(concat('script.js'))
   .pipe(browserify())
+  .pipe(gulpif(env === 'production', uglify()))
   .pipe(gulp.dest(outputDir + 'js'))
   .pipe(connect.reload())
 });
@@ -72,8 +75,8 @@ gulp.task('compass', function(){
   gulp.src(sassSources)
   .pipe(compass({
     sass:'components/sass',
-    image:outputDir + 'images',
-    style:sassStyle
+    image: outputDir + 'images',
+    style: sassStyle
   }).on('error', gutil.log))
   .pipe(gulp.dest(outputDir + 'css'))
   .pipe(connect.reload())
